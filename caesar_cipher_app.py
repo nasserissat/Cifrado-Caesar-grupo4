@@ -35,7 +35,9 @@ def cesar_cipher(text, shift, language='en', decrypt=False):
             index = alphabet.index(lower_char)
             new_index = (index + shift) % len(alphabet)
             new_char = alphabet[new_index]
+
             # Mantiene las mayúsculas
+
             if char.isupper():
                 new_char = new_char.upper()
             result += new_char
@@ -74,12 +76,8 @@ def main():
     print("Bienvenido al aplicativo de Cifrado César\n")
 
     # Solicita al usuario el texto
-    text = input("Ingresa el mensaje que deseas cifrar o descifrar \n")
 
-    # Verifica que haya al menos dos líneas
-    # if text.count('\n') < 1:
-    #  print("\nError: El mensaje debe tener al menos 2 líneas de texto.")
-    #   return
+    text = input("Ingresa el mensaje que deseas cifrar o descifrar \n")
 
     # Solicita la operación
     print("\n¿Qué deseas hacer?")
@@ -93,6 +91,7 @@ def main():
         except ValueError:
             print("\nError: El nivel de desplazamiento debe ser un número entero. Por favor, inténtalo de nuevo.")
     while True:
+
         # Solicita el idioma
         lang_choice = input("\n¿En qué idioma está el mensaje?: \n1. Español\n2. Inglés \n:")
 
@@ -106,6 +105,7 @@ def main():
             break
         else:
             print("Opción inválida. Por favor, elige '1' para Español o '2' para Inglés.")
+
 # Ejecuta la aplicación si es el archivo principal
 # Esto asegura que el código dentro de este bloque solo se ejecutará
 # cuando el archivo se ejecute directamente, no cuando se importe como módulo.
