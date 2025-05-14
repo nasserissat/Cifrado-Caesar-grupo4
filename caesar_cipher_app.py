@@ -74,12 +74,12 @@ def main():
     print("Bienvenido al aplicativo de Cifrado César\n")
 
     # Solicita al usuario el texto
-    text = input("Ingresa el mensaje que deseas cifrar o descifrar (mínimo 2 líneas):\n")
+    text = input("Ingresa el mensaje que deseas cifrar o descifrar \n")
 
     # Verifica que haya al menos dos líneas
-    if text.count('\n') < 1:
-        print("\nError: El mensaje debe tener al menos 2 líneas de texto.")
-        return
+    # if text.count('\n') < 1:
+    #  print("\nError: El mensaje debe tener al menos 2 líneas de texto.")
+    #   return
 
     # Solicita la operación
     print("\n¿Qué deseas hacer?")
@@ -93,7 +93,11 @@ def main():
         except ValueError:
             print("\nError: El nivel de desplazamiento debe ser un número entero. Por favor, inténtalo de nuevo.")
     while True:
-        lang_choice = input("Elige una opción (1 o 2): ")
+        # Solicita el idioma
+        lang_choice = input("\n¿En qué idioma está el mensaje?: \n1. Español\n2. Inglés \n:")
+
+        # Verifica la opción elegida y asigna el idioma correspondiente
+
         if lang_choice == '1':
             language = 'es'
             break
