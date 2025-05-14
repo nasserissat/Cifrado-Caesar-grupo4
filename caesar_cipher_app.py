@@ -21,7 +21,10 @@ def cesar_cipher(text, shift, language='en', decrypt=False):
     elif language == 'es':
         alphabet = ALPHABET_ES
     else:
-        raise ValueError("Idioma no soportado. Use 'en' o 'es'.")
+        if language == 'en':
+            raise ValueError("Unsupported language. Use 'en' or 'es'.")
+        else:
+            raise ValueError("Idioma no soportado. Use 'en' o 'es'.")
 
     shift = -shift if decrypt else shift
     result = ''
@@ -52,9 +55,14 @@ def save_or_display(result_text):
 
     if choice == '1':
         filename = input("Ingresa el nombre del archivo (sin extensión): ") + '.txt'
-        with open(filename, 'w', encoding='utf-8') as f:
-            f.write(result_text)
-        print(f"Resultado guardado en '{filename}'")
+        try:
+            with open(filename, 'w', encoding='utf-8') as f:
+                f.write(result_text)
+            print(f"Resultado guardado en '{filename}'")
+        except (OSError, IOError) as e:
+            print(f"Error al guardar el archivo: {e}")
+            print("Mostrando resultado en pantalla por defecto:")
+            print(result_text)
     elif choice == '2':
         print("\nResultado:")
         print(result_text)
@@ -69,29 +77,43 @@ def main():
     text = input("Ingresa el mensaje que deseas cifrar o descifrar (mínimo 2 líneas):\n")
 
     # Verifica que haya al menos dos líneas
-    # if text.count('\n') < 1:
-    #     print("\nError: El mensaje debe tener al menos 2 líneas de texto.")
-    #    return
+    if text.count('\n') < 1:
+        print("\nError: El mensaje debe tener al menos 2 líneas de texto.")
+        return
 
     # Solicita la operación
     print("\n¿Qué deseas hacer?")
     print("1. Cifrar")
     print("2. Descifrar")
     operation = input("Elige una opción (1 o 2): ")
-    decrypt = operation == '2'
+    while True:
+        try:
+            shift = int(input("\nIngresa el nivel de desplazamiento (por ejemplo, 3 o 7): "))
+            break
+        except ValueError:
+            print("\nError: El nivel de desplazamiento debe ser un número entero. Por favor, inténtalo de nuevo.")
+    while True:
+        lang_choice = input("Elige una opción (1 o 2): ")
+        if lang_choice == '1':
+            language = 'es'
+            break
+        elif lang_choice == '2':
+            language = 'en'
+            break
+        else:
+            print("Opción inválida. Por favor, elige '1' para Español o '2' para Inglés.")
+# Ejecuta la aplicación si es el archivo principal
+# Esto asegura que el código dentro de este bloque solo se ejecutará
+# cuando el archivo se ejecute directamente, no cuando se importe como módulo.
 
-    # Elige el desplazamiento
-    shift = int(input("\nIngresa el nivel de desplazamiento (por ejemplo, 3 o 7): "))
-
-    # Elige el idioma
-    print("\nSelecciona el idioma del mensaje:")
-    print("1. Español")
-    print("2. Inglés")
-    lang_choice = input("Elige una opción (1 o 2): ")
-    language = 'es' if lang_choice == '1' else 'en'
-
-    # Procesa el mensaje
-    result_text = cesar_cipher(text, shift, language=language, decrypt=decrypt)
+    # Realiza la operación de cifrado o descifrado
+    if operation == '1':
+        result_text = cesar_cipher(text, shift, language, decrypt=False)
+    elif operation == '2':
+        result_text = cesar_cipher(text, shift, language, decrypt=True)
+    else:
+        print("Opción inválida. Saliendo del programa.")
+        return
 
     # Muestra o guarda el resultado
     save_or_display(result_text)
